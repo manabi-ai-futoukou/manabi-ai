@@ -1,0 +1,113 @@
+{
+  "name": "manabi-ai",
+  "productName": "学びアイ",
+  "version": "0.1.0",
+  "description": "流動する教科書 — 小学校から高校までの総合学習アプリ「学びアイ」",
+  "license": "MIT",
+  "author": "manabi-ai-futoukou",
+  "homepage": "https://github.com/manabi-ai-futoukou/manabi-ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manabi-ai-futoukou/manabi-ai.git"
+  },
+  "private": true,
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron-vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "smoke": "node scripts/smoke.mjs",
+    "characters": "python tools/cut_characters.py",
+    "speech-check": "node scripts/speech-check.mjs",
+    "check-lessons": "node --no-warnings scripts/check-lessons.mjs",
+    "mark-reviewed": "node scripts/mark-reviewed.mjs",
+    "web:build": "vite build --config vite.web.config.ts",
+    "web": "node --no-warnings web/server.mjs",
+    "notices": "node --no-warnings tools/build-notices.mjs",
+    "release:prepare": "node --no-warnings tools/prepare-release.mjs",
+    "dist": "electron-builder --win nsis --publish never"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.10.0",
+    "@types/pako": "^2.0.4",
+    "katex": "^0.19.1",
+    "pako": "^3.0.3",
+    "pdf-lib": "^1.17.1",
+    "perfect-freehand": "^1.2.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-markdown": "^10.1.0",
+    "rehype-katex": "^7.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "electron": "^45.3.2",
+    "electron-builder": "^26.18.0",
+    "electron-vite": "^6.0.0",
+    "playwright-core": "^1.65.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8"
+  },
+  "build": {
+    "appId": "io.github.manabi-ai-futoukou.manabi-ai",
+    "productName": "学びアイ",
+    "artifactName": "ManabiAI-Setup-${version}.${ext}",
+    "directories": {
+      "output": "release/win",
+      "buildResources": "build"
+    },
+    "files": [
+      "out/**",
+      "resources/**",
+      "package.json",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "extraResources": [
+      {
+        "from": "release/site/dist/data",
+        "to": "content-pack",
+        "filter": [
+          "**/*",
+          "!**/_list.json",
+          "!search/**"
+        ]
+      }
+    ],
+    "extraFiles": [
+      {
+        "from": "LICENSE",
+        "to": "LICENSE.txt"
+      },
+      {
+        "from": "THIRD_PARTY_NOTICES.md",
+        "to": "THIRD_PARTY_NOTICES.md"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "src/web/public/icons/icon-512.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "学びアイ",
+      "uninstallDisplayName": "学びアイ",
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}

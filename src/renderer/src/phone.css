@@ -1,0 +1,230 @@
+/*
+ * iPhone などの、はばのせまい画面（スマートフォン）向けの見た目。
+ *
+ * ここにある決まりは、<html data-phone> のときだけ効く。この目印は、Web 版の親のページ（src/web/shell.tsx）が、
+ * 画面のはばを見て付ける。PC・iPad・Chromebook では付かないので、これまでの表示は変わらない。
+ *
+ * 考え方:
+ *   - 1 列にする（横に並べていたものは、たてに積む。横に並べたままのものは、指で横に送れるようにする）
+ *   - 指で押しやすい大きさにする（ボタンの高さは 40px 以上。文字を入れる欄は 16px 以上にして、iPhone が勝手に拡大しないようにする）
+ *   - 一覧や設定など「ときどき使うもの」は、たたんでおいて、押したら全画面で開く
+ */
+
+html[data-phone] #root { min-width: 0; min-height: 0; }
+html[data-phone] body { font-size: 16px; -webkit-text-size-adjust: 100%; overscroll-behavior: none; }
+html[data-phone] input[type='text'], html[data-phone] input[type='search'], html[data-phone] input[type='number'], html[data-phone] input:not([type]), html[data-phone] select, html[data-phone] textarea { font-size: 16px; }
+html[data-phone] .btn { min-height: 40px; padding: 8px 14px; }
+html[data-phone] .btn-quiet { min-height: 36px; }
+html[data-phone] .segmented button { padding: 8px 12px; }
+html[data-phone] .chip-toggle { padding: 7px 14px; }
+html[data-phone] .card { padding: 14px; }
+html[data-phone] .paper { padding: 20px 16px; border-radius: 14px; }
+html[data-phone] .paper-empty { padding: 36px 18px; }
+html[data-phone] .modal-backdrop { padding: 8px; align-items: end; }
+html[data-phone] .modal { padding: 18px 16px; border-radius: 18px 18px 12px 12px; max-height: 92%; }
+html[data-phone] .toast { left: 12px; right: 12px; bottom: 14px; transform: none; max-width: none; text-align: center; }
+html[data-phone] .popover { max-width: 92vw; }
+/* スマートフォンのときだけ見せるもの・かくすもの */
+.phone-only { display: none !important; }
+html[data-phone] .phone-only { display: inline-flex !important; }
+html[data-phone] .phone-hide { display: none !important; }
+
+/* ───────── メニューをかくしているとき（はじめの状態）─────────
+ * 画面の上の帯（題とボタンの列）・ノートの道具とページ送り・話し相手の欄を、かくす。右上のボタンで出せる。
+ * テストの画面の帯は、残り時間や「提出する」があるので、かくさない。
+ *
+ * かくし方は「高さを 0 にする」。display: none にはしない。どの画面も「帯の段 + 中身の段」という格子で組んであり、
+ * 帯を無いものにすると、中身が帯の段（高さは中身しだい）に詰まって、ノートの紙の高さが 0 になる（2026-11-20 の不具合）。 */
+html[data-phone][data-bars='hidden'] .view-header:not(.test:not(.settings) > .view-header) { height: 0; min-height: 0; max-height: 0; padding: 0; margin: 0; border: 0; overflow: hidden; visibility: hidden; }
+html[data-phone][data-bars='hidden'] .note-bar,
+html[data-phone][data-bars='hidden'] .pager,
+html[data-phone][data-bars='hidden'] .debate-side { height: 0; min-height: 0; max-height: 0; padding: 0; margin: 0; border: 0; overflow: hidden; visibility: hidden; }
+html[data-phone][data-bars='hidden'] .test:not(.settings) > .view-header { padding-right: 56px; }
+
+/* ───────── 画面の上の帯 ───────── */
+
+html[data-phone] .view-header { flex-direction: column; align-items: stretch; gap: 6px; padding: 8px 12px 6px; }
+html[data-phone] .view-header-title strong { font-size: 1.05em; }
+html[data-phone] .view-header-title select { max-width: 100%; }
+/* ボタンの列は、折り返さずに、指で横に送る */
+html[data-phone] .view-header-actions { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; margin: 0 -12px; padding: 2px 12px 4px; scrollbar-width: none; }
+html[data-phone] .view-header-actions::-webkit-scrollbar { display: none; }
+html[data-phone] .view-header-actions > * { flex: none; }
+html[data-phone] .view-header-actions .btn { padding: 6px 12px; min-height: 38px; }
+html[data-phone] .pin-host { display: none; }
+
+/* ───────── ホーム ───────── */
+
+html[data-phone] .home { padding: 14px 12px 30px; }
+html[data-phone] .home-hero { flex-direction: column; align-items: stretch; gap: 10px; margin-bottom: 14px; }
+html[data-phone] .home-brand { display: flex; align-items: baseline; gap: 10px; }
+html[data-phone] .home-brand h1 { font-size: 1.7em; }
+html[data-phone] .home-tagline { letter-spacing: 0.16em; font-size: 0.74em; order: 2; }
+html[data-phone] .home-hello { justify-content: flex-end; gap: 8px; }
+html[data-phone] .home-hello .bubble { max-width: none; flex: 1; padding: 8px 12px; font-size: 0.92em; }
+html[data-phone] .home-hello .portrait-lg { width: 68px; height: 68px; }
+/* 授業の流れ（4 つの手順）は、横に送って見る */
+html[data-phone] .steps { display: flex; overflow-x: auto; gap: 8px; margin: 0 -12px 14px; padding: 0 12px 4px; scroll-snap-type: x proximity; scrollbar-width: none; }
+html[data-phone] .steps::-webkit-scrollbar { display: none; }
+html[data-phone] .steps li { flex: none; width: 68%; scroll-snap-align: start; padding: 10px 12px; }
+/* 道具と力だめしを先に、そのあとに科目と授業、残りの設定は最後に */
+html[data-phone] .home-columns { display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
+html[data-phone] .home-side { display: contents; }
+html[data-phone] .home-side > .card { order: 3; }
+html[data-phone] .home-side > .home-tools { order: -2; }
+html[data-phone] .home-side > .home-progress { order: -1; }
+html[data-phone] .home-main { order: 0; min-width: 0; }
+html[data-phone] .home-progress-actions { grid-template-columns: 1fr 1fr; }
+html[data-phone] .home-progress-actions .btn { white-space: normal; line-height: 1.3; }
+html[data-phone] .home-course { flex-direction: column; align-items: stretch; }
+html[data-phone] .course-picker { display: grid; gap: 8px; }
+html[data-phone] .course-picker .segmented { display: flex; overflow-x: auto; border-radius: 12px; scrollbar-width: none; }
+html[data-phone] .course-picker .segmented button { flex: 1 0 auto; padding: 8px 10px; }
+html[data-phone] .course-picker select { width: 100%; }
+html[data-phone] .unit-header { padding: 12px; gap: 10px; }
+html[data-phone] .unit-count { font-size: 0.78em; }
+html[data-phone] .unit-body { padding: 0 12px 12px; }
+html[data-phone] .unit-summary { padding-left: 0; }
+/* 授業の行: 上に番号と題、下に 3 つのボタンを横いっぱいに */
+html[data-phone] .lesson-row { grid-template-columns: 2.4em minmax(0, 1fr) auto; gap: 6px 8px; padding: 10px 0; }
+html[data-phone] .lesson-info small { white-space: normal; }
+html[data-phone] .lesson-actions { grid-column: 1 / -1; }
+html[data-phone] .lesson-actions .btn { flex: 1; }
+html[data-phone] .ai-settings { grid-template-columns: 1fr; }
+
+/* ───────── 教科書 ───────── */
+
+html[data-phone] .textbook { grid-template-columns: minmax(0, 1fr); }
+/* 授業の一覧は、ふだんはたたんでおき、「授業の一覧」を押すと全画面で開く */
+html[data-phone] .textbook-nav { display: none; position: fixed; inset: 0; z-index: 70; padding: 14px 12px 30px; border-right: 0; }
+html[data-phone] .textbook[data-nav='open'] .textbook-nav { display: block; }
+html[data-phone] .textbook-nav .nav-item { padding-top: 10px; padding-bottom: 10px; }
+html[data-phone] .textbook-nav summary { padding: 10px 8px; }
+.textbook-nav-close { display: none; }
+html[data-phone] .textbook-nav-close { display: flex; width: 100%; margin-bottom: 12px; }
+html[data-phone] .textbook-article { padding: 12px 8px 40px; }
+html[data-phone] .md { font-size: 1.02em; }
+html[data-phone] .md h1 { font-size: 1.5em; }
+html[data-phone] .md table { display: block; max-width: 100%; overflow-x: auto; margin-left: 0; margin-right: 0; }
+html[data-phone] .md th, html[data-phone] .md td { padding: 6px 10px; }
+html[data-phone] .kakeai { padding: 12px 10px; }
+html[data-phone] .kakeai-say { max-width: 84%; }
+html[data-phone] .kakeai-line .portrait, html[data-phone] .kakeai-badge { width: 46px; height: 46px; }
+html[data-phone] .sim { padding: 12px 10px; }
+html[data-phone] .sim-stage, html[data-phone] .sim[data-kind] .sim-stage { grid-template-columns: minmax(0, 1fr); }
+html[data-phone] .sim-controls { grid-template-columns: minmax(0, 1fr); }
+html[data-phone] .paper-footer { display: grid; gap: 8px; }
+html[data-phone] .paper-footer .btn { white-space: normal; line-height: 1.35; }
+html[data-phone] .redsheet-bar { padding: 6px 12px; }
+html[data-phone] .lesson-links { padding: 12px; }
+html[data-phone] .lesson-links ul { grid-template-columns: minmax(0, 1fr); }
+/* 用語の解説は、画面の下に、横いっぱいで出す */
+html[data-phone] .term-card { left: 8px !important; right: 8px; top: auto !important; bottom: 10px; transform: none; width: auto; }
+html[data-phone] .selection-ask { transform: translateX(-50%); }
+
+/* ───────── チャット・ディベート・英会話 ───────── */
+
+html[data-phone] .debate { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+/* 相手を選ぶ欄は、上に横 1 列で置く（説明や AI の設定は、かくす） */
+html[data-phone] .debate-side { flex-direction: row; align-items: center; gap: 8px; padding: 6px 10px; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--line); text-align: left; scrollbar-width: none; max-height: 64px; }
+/* 出すのは、相手の顔・名前・相手を選ぶ列・切りかえ（チェック）だけ。説明の文は出さない（せまい列に長い文が入ると、たてに長くのびる） */
+html[data-phone] .debate-side > * { flex: none; white-space: nowrap; }
+html[data-phone] .debate-side > :not(.portrait):not(h2):not(.debate-people):not(.check) { display: none; }
+html[data-phone] .debate-side .check { font-size: 0.85em; padding: 0 4px; }
+html[data-phone] .debate-side small { display: none; }
+html[data-phone] .debate-side > .portrait-xl, html[data-phone] .debate-side > .portrait-lg { width: 44px; height: 44px; border-width: 2px; }
+html[data-phone] .debate-side h2 { font-size: 1em; margin: 0; white-space: nowrap; }
+html[data-phone] .debate-side h3, html[data-phone] .debate-side .debate-summary, html[data-phone] .debate-side .ai-settings, html[data-phone] .debate-side .people-role, html[data-phone] .debate-side .gauge { display: none; }
+html[data-phone] .debate-people { display: flex; gap: 4px; align-self: center; }
+html[data-phone] .debate-side .person { width: auto; padding: 4px 6px; flex: none; }
+html[data-phone] .debate-side .person > span:last-child { display: none; }
+html[data-phone] .chat { padding: 14px 10px; }
+html[data-phone] .bubble-user { max-width: 86%; }
+html[data-phone] .bubble-assistant { max-width: 100%; }
+html[data-phone] .message .portrait-md { width: 40px; height: 40px; }
+html[data-phone] .composer { padding: 8px 10px calc(10px + env(safe-area-inset-bottom)); }
+
+/* ───────── ノート・メモ ───────── */
+
+/* 道具の列は 1 行にして、指で横に送る。字の説明は出さず、絵だけにする */
+html[data-phone] .note-bar { flex-wrap: nowrap; overflow-x: auto; padding: 6px 8px; gap: 6px; scrollbar-width: none; }
+html[data-phone] .note-bar::-webkit-scrollbar { display: none; }
+html[data-phone] .note-bar-group { flex: none; }
+html[data-phone] .note-bar-spacer { display: none; }
+html[data-phone] .note-bar-spacer + .note-bar-group { border-left: 1px solid var(--line); padding-left: 9px; }
+html[data-phone] .note-bar .popover { position: fixed; top: 108px; left: 8px; right: 8px; width: auto; }
+html[data-phone] .note-title input { width: 100px; }
+html[data-phone] .save-state { display: none; }
+html[data-phone] .tool { min-width: 42px; min-height: 42px; padding: 6px 4px; }
+html[data-phone] .tool span { display: none; }
+html[data-phone] .note-stage { padding: 8px; }
+/* 1 ページずつ見せる（見開きだと、書きこむには小さすぎる） */
+html[data-phone] .spread { --fit: min(100cqw - 16px, (100cqh - 16px) * 0.70817); }
+html[data-phone] .pager { padding: 6px 8px calc(8px + env(safe-area-inset-bottom)); gap: 6px; }
+html[data-phone] .pager .btn { padding: 6px 10px; min-height: 38px; }
+html[data-phone] .pager-now { min-width: 0; flex: 1; font-size: 0.9em; }
+html[data-phone] .pager-jump, html[data-phone] .pager-spacer { display: none; }
+html[data-phone] .page-zoom input { display: none; }
+html[data-phone] .note-panel { width: 100%; }
+html[data-phone] .memo-body { padding: 12px 10px 30px; }
+html[data-phone] .memo-row { flex-wrap: wrap; padding: 4px 6px 6px 0; }
+html[data-phone] .memo-open { flex-basis: 100%; }
+html[data-phone] .memo-open strong { white-space: normal; }
+html[data-phone] .memo-row .btn { margin-left: 8px; }
+
+/* ───────── テスト・記述と論述・成績・設定 ───────── */
+
+html[data-phone] .test-scroll, html[data-phone] .report-scroll { padding: 12px 8px 30px; }
+html[data-phone] .test-setup { padding: 18px 14px; gap: 16px; }
+html[data-phone] .field { justify-items: stretch; }
+html[data-phone] .field select { min-width: 0; width: 100%; }
+html[data-phone] .field .segmented { display: flex; flex-wrap: wrap; border-radius: 12px; }
+html[data-phone] .field .segmented button { flex: 1 0 auto; }
+html[data-phone] .field .course-picker { width: 100%; }
+html[data-phone] .field .course-picker .segmented { flex-wrap: nowrap; }
+html[data-phone] .test-status { justify-content: space-between; }
+html[data-phone] .question { padding: 16px 14px; }
+html[data-phone] .choice { padding: 10px 12px; }
+html[data-phone] .answer-review { grid-template-columns: minmax(0, 1fr); }
+html[data-phone] .test-history { padding: 16px 12px; }
+html[data-phone] .test-history li button { grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; }
+html[data-phone] .test-score { padding: 18px 14px; }
+html[data-phone] .essay-body { padding: 12px 8px 30px; }
+html[data-phone] .essay-pick { grid-template-columns: minmax(0, 1fr); }
+html[data-phone] .essay-history li button { grid-template-columns: auto minmax(0, 1fr) auto; }
+html[data-phone] .essay-history li button > span:first-child { display: none; }
+html[data-phone] .report-grid { grid-template-columns: minmax(0, 1fr); }
+html[data-phone] .settings-section { padding: 18px 14px; }
+html[data-phone] .zoom-list li, html[data-phone] .key-list li { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 8px; }
+
+/* ───────── 用語集・検索・年表 ───────── */
+
+html[data-phone] .glossary-list { padding: 10px 10px 30px; }
+html[data-phone] .glossary-item { padding: 10px; }
+html[data-phone] .search-body, html[data-phone] .timeline-body { padding: 12px 8px 30px; }
+html[data-phone] .search-row { flex-wrap: wrap; }
+html[data-phone] .search-row input { flex-basis: 100%; }
+html[data-phone] .search-row .btn { flex: 1; }
+html[data-phone] .search-scope .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -14px; padding: 0 14px 2px; }
+html[data-phone] .search-scope .chips > * { flex: none; }
+html[data-phone] .search-scope select { width: 100%; }
+html[data-phone] .timeline-event { grid-template-columns: minmax(0, 1fr); gap: 0; }
+html[data-phone] .timeline-both-head, html[data-phone] .timeline-both-row { gap: 6px 6px; }
+html[data-phone] .timeline-both .timeline-event { padding: 6px 8px; font-size: 0.9em; }
+html[data-phone] .timeline-era h2, html[data-phone] .timeline-both-row h2 { top: -12px; }
+
+/* ───────── 漢字ノート: マスのページと、言葉を書くページを、たてに並べる ───────── */
+
+html[data-phone] .kanji-note-stage { display: block; overflow: auto; padding: 8px; container-type: inline-size; }
+html[data-phone] .kanji-spread { flex-direction: column; width: 100%; gap: 10px; box-shadow: none; }
+html[data-phone] .kanji-grid-page { display: block; flex: none; height: auto; aspect-ratio: auto; container-type: normal; border-right: 0; border-radius: 6px; padding: 14px 12px; box-shadow: var(--shadow); }
+html[data-phone] .kanji-grid { width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+html[data-phone] .kanji-grid-side { font-size: 13px; }
+html[data-phone] .kanji-spread > .note-page { flex: none; width: 100%; border-radius: 6px; box-shadow: var(--shadow); }
+html[data-phone] .kanji-note-title span { font-size: 0.85em; white-space: nowrap; }
+
+/* ───────── 特訓（語彙・漢字・英会話） ───────── */
+
+html[data-phone] .drill-body { grid-template-columns: minmax(0, 1fr); padding: 12px 8px 30px; gap: 12px; }
+html[data-phone] .drill-card { padding: 20px 16px; }
+html[data-phone] .drill-word { font-size: 2.4em; margin-top: -6px; }

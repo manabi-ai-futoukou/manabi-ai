@@ -1,0 +1,1219 @@
+{
+  "s07": {
+    "source": "ショートヘア中学生の制服キャラクターシート-7.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 258,
+        "height": 999
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 191,
+        "height": 996
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 256,
+        "height": 998
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 268,
+        "height": 325
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 276,
+        "height": 330
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 284,
+        "height": 356
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 397,
+        "height": 487
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 404,
+        "height": 483
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 399,
+        "height": 488
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 407,
+        "height": 489
+      }
+    }
+  },
+  "s10": {
+    "source": "三つ編み眼鏡の女子生徒キャラクターシート-10.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 280,
+        "height": 990
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 188,
+        "height": 989
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 274,
+        "height": 989
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 257,
+        "height": 331
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 308,
+        "height": 340
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 269,
+        "height": 342
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 366,
+        "height": 481
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 377,
+        "height": 481
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 375,
+        "height": 487
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 382,
+        "height": 487
+      }
+    }
+  },
+  "s05": {
+    "source": "二つ結びの中学生制服キャラクターシート-5.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 291,
+        "height": 993
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 191,
+        "height": 993
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 291,
+        "height": 990
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 262,
+        "height": 326
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 276,
+        "height": 337
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 277,
+        "height": 342
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 379,
+        "height": 475
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 385,
+        "height": 474
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 385,
+        "height": 479
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 394,
+        "height": 482
+      }
+    }
+  },
+  "s03": {
+    "source": "元気なポニーテール中学生の設定画-3.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 292,
+        "height": 997
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 244,
+        "height": 983
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 288,
+        "height": 989
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 264,
+        "height": 332
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 273,
+        "height": 331
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 358,
+        "height": 335
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 364,
+        "height": 478
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 388,
+        "height": 473
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 368,
+        "height": 483
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 379,
+        "height": 482
+      }
+    }
+  },
+  "s09": {
+    "source": "栗色ロングヘアの女子中学生キャラクターシート-9.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 285,
+        "height": 993
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 218,
+        "height": 992
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 292,
+        "height": 992
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 274,
+        "height": 333
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 280,
+        "height": 336
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 291,
+        "height": 349
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 404,
+        "height": 481
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 405,
+        "height": 478
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 408,
+        "height": 480
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 413,
+        "height": 484
+      }
+    }
+  },
+  "s01": {
+    "source": "森色ブレザーの少女キャラクターシート-1.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 287,
+        "height": 999
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 206,
+        "height": 994
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 292,
+        "height": 995
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 258,
+        "height": 320
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 308,
+        "height": 332
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 291,
+        "height": 357
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 370,
+        "height": 473
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 384,
+        "height": 472
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 373,
+        "height": 471
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 384,
+        "height": 474
+      }
+    }
+  },
+  "s06": {
+    "source": "茶髪ボブの中学生キャラクターシート-6.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 303,
+        "height": 995
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 210,
+        "height": 990
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 298,
+        "height": 992
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 256,
+        "height": 322
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 270,
+        "height": 331
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 274,
+        "height": 343
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 384,
+        "height": 481
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 386,
+        "height": 486
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 387,
+        "height": 487
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 383,
+        "height": 481
+      }
+    }
+  },
+  "s04": {
+    "source": "茶髪中学生の制服キャラクターシート-4.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 273,
+        "height": 1000
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 201,
+        "height": 997
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 275,
+        "height": 993
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 254,
+        "height": 315
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 268,
+        "height": 349
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 261,
+        "height": 348
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 375,
+        "height": 484
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 387,
+        "height": 487
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 381,
+        "height": 489
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 373,
+        "height": 486
+      }
+    }
+  },
+  "s08": {
+    "source": "青黒髪の女子中学生キャラクターシート-8.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 287,
+        "height": 987
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 209,
+        "height": 986
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 283,
+        "height": 983
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 271,
+        "height": 325
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 277,
+        "height": 327
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 293,
+        "height": 344
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 394,
+        "height": 464
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 397,
+        "height": 464
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 395,
+        "height": 470
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 398,
+        "height": 470
+      }
+    }
+  },
+  "s02": {
+    "source": "黒髪お団子の中学生キャラクターシート-2.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 293,
+        "height": 995
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 204,
+        "height": 991
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 290,
+        "height": 986
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 242,
+        "height": 321
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 285,
+        "height": 338
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 242,
+        "height": 335
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 340,
+        "height": 467
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 343,
+        "height": 458
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 337,
+        "height": 474
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 355,
+        "height": 473
+      }
+    }
+  },
+  "s14": {
+    "source": "ふんわり髪の少年キャラクターシート-4.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 269,
+        "height": 997
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 206,
+        "height": 997
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 271,
+        "height": 995
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 279,
+        "height": 328
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 284,
+        "height": 326
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 294,
+        "height": 344
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 398,
+        "height": 481
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 394,
+        "height": 477
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 405,
+        "height": 492
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 413,
+        "height": 493
+      }
+    }
+  },
+  "s12": {
+    "source": "メガネの中学生男子キャラクターシート-2.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 263,
+        "height": 990
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 194,
+        "height": 990
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 263,
+        "height": 991
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 278,
+        "height": 332
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 283,
+        "height": 326
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 324,
+        "height": 342
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 395,
+        "height": 471
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 402,
+        "height": 472
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 407,
+        "height": 476
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 408,
+        "height": 477
+      }
+    }
+  },
+  "s20": {
+    "source": "中学生男子の三面図と表情集-10.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 266,
+        "height": 1001
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 195,
+        "height": 1001
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 258,
+        "height": 994
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 286,
+        "height": 337
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 319,
+        "height": 329
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 301,
+        "height": 352
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 400,
+        "height": 483
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 407,
+        "height": 483
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 406,
+        "height": 485
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 408,
+        "height": 485
+      }
+    }
+  },
+  "s17": {
+    "source": "中学生男子の制服キャラクターシート-7.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 269,
+        "height": 995
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 199,
+        "height": 992
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 270,
+        "height": 994
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 292,
+        "height": 334
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 296,
+        "height": 328
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 302,
+        "height": 350
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 390,
+        "height": 463
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 386,
+        "height": 463
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 394,
+        "height": 474
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 401,
+        "height": 473
+      }
+    }
+  },
+  "s11": {
+    "source": "優しい中学生男子の制服キャラクターシート-1.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 264,
+        "height": 993
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 192,
+        "height": 990
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 266,
+        "height": 993
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 288,
+        "height": 333
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 291,
+        "height": 328
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 305,
+        "height": 343
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 420,
+        "height": 473
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 436,
+        "height": 481
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 428,
+        "height": 478
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 427,
+        "height": 479
+      }
+    }
+  },
+  "s15": {
+    "source": "元気な中学生男子のキャラクターシート-5.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 264,
+        "height": 980
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 188,
+        "height": 980
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 266,
+        "height": 983
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 307,
+        "height": 320
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 316,
+        "height": 318
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 389,
+        "height": 339
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 431,
+        "height": 473
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 431,
+        "height": 474
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 434,
+        "height": 476
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 437,
+        "height": 476
+      }
+    }
+  },
+  "s13": {
+    "source": "学ラン少年の三面図と表情集-3.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 274,
+        "height": 995
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 195,
+        "height": 992
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 277,
+        "height": 994
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 308,
+        "height": 334
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 308,
+        "height": 328
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 317,
+        "height": 340
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 427,
+        "height": 472
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 430,
+        "height": 469
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 428,
+        "height": 475
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 431,
+        "height": 475
+      }
+    }
+  },
+  "s19": {
+    "source": "眼鏡の学ラン少年設定画-9.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 256,
+        "height": 989
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 189,
+        "height": 987
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 253,
+        "height": 989
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 297,
+        "height": 334
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 335,
+        "height": 319
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 315,
+        "height": 344
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 433,
+        "height": 471
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 441,
+        "height": 471
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 440,
+        "height": 479
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 438,
+        "height": 479
+      }
+    }
+  },
+  "s16": {
+    "source": "穏やかな中学生男子の設定画-6.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 267,
+        "height": 994
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 192,
+        "height": 993
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 269,
+        "height": 995
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 291,
+        "height": 336
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 301,
+        "height": 330
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 298,
+        "height": 341
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 425,
+        "height": 475
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 427,
+        "height": 476
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 425,
+        "height": 480
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 428,
+        "height": 484
+      }
+    }
+  },
+  "s18": {
+    "source": "黒髪中学生の制服キャラクターシート-8.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 269,
+        "height": 989
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 193,
+        "height": 989
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 272,
+        "height": 990
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 290,
+        "height": 323
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 300,
+        "height": 322
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 308,
+        "height": 342
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 415,
+        "height": 460
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 424,
+        "height": 460
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 410,
+        "height": 463
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 416,
+        "height": 463
+      }
+    }
+  },
+  "sensei": {
+    "source": "やさしい先生のキャラクターシート.png",
+    "full": {
+      "front": {
+        "file": "full_front.png",
+        "width": 269,
+        "height": 988
+      },
+      "side": {
+        "file": "full_side.png",
+        "width": 240,
+        "height": 981
+      },
+      "back": {
+        "file": "full_back.png",
+        "width": 258,
+        "height": 982
+      }
+    },
+    "faces": {
+      "face1": {
+        "file": "face1.png",
+        "width": 282,
+        "height": 328
+      },
+      "face2": {
+        "file": "face2.png",
+        "width": 285,
+        "height": 315
+      },
+      "face3": {
+        "file": "face3.png",
+        "width": 316,
+        "height": 368
+      },
+      "sleepy": {
+        "file": "sleepy.png",
+        "width": 393,
+        "height": 473
+      },
+      "thinking": {
+        "file": "thinking.png",
+        "width": 392,
+        "height": 475
+      },
+      "troubled": {
+        "file": "troubled.png",
+        "width": 399,
+        "height": 483
+      },
+      "surprised": {
+        "file": "surprised.png",
+        "width": 402,
+        "height": 485
+      },
+      "wink": {
+        "file": "wink.png",
+        "width": 368,
+        "height": 480
+      },
+      "praise": {
+        "file": "praise.png",
+        "width": 357,
+        "height": 480
+      },
+      "gentle": {
+        "file": "gentle.png",
+        "width": 375,
+        "height": 480
+      },
+      "serious": {
+        "file": "serious.png",
+        "width": 374,
+        "height": 480
+      }
+    }
+  }
+}

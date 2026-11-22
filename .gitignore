@@ -1,0 +1,22 @@
+# 入れた部品と、作ったもの
+node_modules/
+out/
+dist/
+dist-web/
+release/
+
+# 動作確認の写真と記録
+*.log
+.smoke/
+.smoke-speech/
+
+# 1 回きりの道具と、ためしたもの
+.try/
+
+# もとの絵・取り寄せた画像（大きいので、ここには置かない。資料の画像の出どころは THIRD_PARTY_NOTICES.md）
+assets-src/
+
+# 鍵など
+.env
+.env.*
+*.pem

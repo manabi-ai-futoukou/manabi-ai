@@ -1,0 +1,90 @@
+/* 親のページ（Web 版）の見た目。各画面の見た目は、Electron 版と同じ styles.css が iframe の中で使われる。 */
+:root {
+  --paper: #f7f3ea;
+  --ink: #2c2a35;
+  --line: #d9d2c2;
+  --accent: #3d6b5c;
+  --soft: #ece6d8;
+  font-family: 'Hiragino Sans', 'Yu Gothic UI', 'Noto Sans JP', 'Meiryo', system-ui, sans-serif;
+  color: var(--ink);
+}
+* { box-sizing: border-box; }
+html, body, #shell { height: 100%; margin: 0; background: var(--paper); overscroll-behavior: none; }
+button { font: inherit; color: inherit; }
+
+.shell { display: grid; grid-template-rows: auto 1fr; height: 100dvh; padding-top: env(safe-area-inset-top); }
+.shell-loading, .shell-fatal { padding: 32px; white-space: pre-wrap; }
+.shell-fatal { color: #a03030; font-size: 0.85rem; }
+
+.shell-bar { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-bottom: 1px solid var(--line); background: #fbf8f1; min-width: 0; }
+.shell-name { white-space: nowrap; font-size: 0.95rem; }
+.shell-name small { margin-left: 6px; font-weight: normal; font-size: 0.7rem; color: #7a7466; }
+.shell-tabs { display: flex; gap: 4px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.shell-tab { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 8px; background: #fff; white-space: nowrap; }
+.shell-tab button { border: 0; background: none; padding: 6px 10px; cursor: pointer; font-size: 0.85rem; min-height: 34px; }
+.shell-tab .shell-tab-close { padding: 6px 8px 6px 2px; color: #8a8372; }
+/* 固定のボタン（ピン）。固定している画面のタブは、色を付けて分かるようにする */
+.shell-tab .shell-tab-pin { padding: 6px 3px 6px 0; color: #b3ab98; display: inline-grid; place-items: center; }
+.shell-tab .shell-tab-pin:hover { color: var(--accent); }
+.shell-tab .shell-tab-pin[aria-pressed='true'] { color: var(--accent); }
+.shell-tab[data-pinned='true'] { background: #e3efe9; border-color: var(--accent); }
+.shell-tab[data-shown='true'] { background: var(--soft); border-color: #bdb49e; }
+.shell-tab[data-focus='true'] { border-color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); }
+.shell-actions { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.shell-actions > button { border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 6px 10px; cursor: pointer; font-size: 0.8rem; min-height: 34px; }
+.shell-plan { font-size: 0.75rem; color: #5b5648; }
+.shell-plan a { color: var(--accent); }
+
+.shell-stage { display: grid; min-height: 0; gap: 2px; background: var(--line); grid-template: 'a' 1fr / 1fr; }
+.shell-stage[data-panes='2'] { grid-template: 'a b' 1fr / 1fr 1fr; }
+.shell-stage[data-panes='3'] { grid-template: 'a c' 1fr 'b c' 1fr / minmax(280px, 34%) 1fr; }
+.shell-stage iframe { width: 100%; height: 100%; border: 0; background: var(--paper); min-width: 0; min-height: 0; }
+.shell-stage iframe[data-focus='true'] { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* ───────── スマートフォン: 画面を上に、タブを下に ───────── */
+.shell[data-phone] { grid-template-rows: minmax(0, 1fr) auto; }
+.shell-dock { display: flex; align-items: stretch; gap: 6px; padding: 6px 8px calc(6px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: #fbf8f1; min-width: 0; }
+.shell-dock-tabs { display: flex; gap: 6px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.shell-dock-tabs::-webkit-scrollbar { display: none; }
+.shell-dock-tab { display: inline-flex; align-items: center; flex: none; border: 1px solid var(--line); border-radius: 12px; background: #fff; white-space: nowrap; }
+.shell-dock-tab button { border: 0; background: none; padding: 0 14px; min-height: 44px; font-size: 0.92rem; cursor: pointer; }
+.shell-dock-tab .shell-tab-close { padding: 0 12px 0 2px; color: #8a8372; font-size: 1.1rem; }
+.shell-dock-tab[data-focus='true'] { background: var(--accent); border-color: var(--accent); }
+.shell-dock-tab[data-focus='true'] button { color: #fff; font-weight: 700; }
+.shell-dock-menu { flex: none; border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 0 12px; min-height: 44px; font-size: 0.85rem; font-weight: 700; color: var(--accent); cursor: pointer; }
+.shell-dock[hidden] { display: none; }
+.shell-dock-hide { display: inline-grid; place-items: center; color: #6b6452; }
+/* メニューをかくしているあいだは、右上に小さなボタンだけを出す */
+.shell-bars-handle { position: fixed; top: calc(6px + env(safe-area-inset-top)); right: 8px; z-index: 5; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid rgba(61, 107, 92, 0.35); border-radius: 50%; background: rgba(251, 248, 241, 0.86); color: var(--accent); box-shadow: 0 2px 8px rgba(40, 36, 28, 0.16); cursor: pointer; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.shell[data-phone] .ai-backdrop { padding: 0; align-items: end; }
+.shell[data-phone] .ai-panel { width: 100%; max-height: 90dvh; border-radius: 16px 16px 0 0; padding: 16px 14px calc(18px + env(safe-area-inset-bottom)); }
+.shell[data-phone] .ai-panel input, .shell[data-phone] .ai-panel select { font-size: 16px; }
+.shell[data-phone] .ai-detail { margin-left: 0; }
+
+@media (max-width: 720px) {
+  .shell-name small, .shell-plan { display: none; }
+  .shell-actions > button { padding: 6px 8px; }
+}
+
+.ai-backdrop { position: fixed; inset: 0; background: rgba(40, 36, 28, 0.35); display: grid; place-items: center; padding: 12px; z-index: 10; }
+.ai-panel { width: min(680px, 100%); max-height: 92dvh; overflow: auto; background: #fff; border-radius: 14px; padding: 18px 20px 22px; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25); font-size: 0.9rem; line-height: 1.6; }
+.ai-panel header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.ai-panel h2 { font-size: 1.1rem; margin: 0; }
+.ai-panel h3 { font-size: 0.95rem; margin: 20px 0 6px; padding-top: 12px; border-top: 1px solid var(--line); }
+.ai-panel button { border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 5px 12px; cursor: pointer; }
+.ai-route { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; margin-top: 8px; cursor: pointer; }
+.ai-route[data-on='true'] { border-color: var(--accent); background: #f3f8f5; }
+.ai-route input { margin-top: 5px; }
+.ai-route small { display: block; color: #5b5648; }
+.ai-route em, .ai-detail em { font-style: normal; font-size: 0.72rem; margin-left: 8px; padding: 1px 8px; border-radius: 999px; background: #efe9da; color: #6b6452; }
+.ai-route em[data-ok='true'], .ai-detail em[data-ok] { background: #dcefe6; color: #2f6150; }
+.ai-detail { margin: 6px 0 0 34px; color: #4a4638; }
+.ai-detail label { display: block; margin-top: 6px; }
+.ai-detail input[type='password'] { display: block; width: 100%; margin-top: 3px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; font: inherit; }
+.ai-check { display: flex !important; gap: 8px; align-items: flex-start; }
+.ai-warn, .ai-message { padding: 8px 12px; border-radius: 8px; background: #fbf1d9; color: #6f4a07; }
+.ai-message { margin-top: 10px; background: #e8f1ee; color: #2f6150; }
+.siwc-button { background: #000 !important; color: #fff !important; border-color: #000 !important; padding: 9px 18px !important; border-radius: 999px !important; font-weight: 600; }
+.ai-usage { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.ai-usage th, .ai-usage td { text-align: left; padding: 4px 8px; border-bottom: 1px solid #eee7d8; }
+.ai-usage td:nth-child(n + 2) { text-align: right; font-variant-numeric: tabular-nums; }

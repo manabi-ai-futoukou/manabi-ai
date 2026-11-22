@@ -1,0 +1,12 @@
+// Web 版を Cloudflare（Workers の静的なファイルの配信）に置くための設定。手順は docs/PUBLISHING.md。
+//   npm run release:prepare   … release/site/dist/ に、Web 版と教材を書き出す
+//   npx wrangler deploy       … Cloudflare に置く（はじめに npx wrangler login が要る）
+// サーバーのプログラムは無く、ファイルを配るだけ（AI は、利用者が自分の API キーで、ブラウザーから直接つなぐ）。
+{
+  "name": "manabi-ai",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./release/site/dist",
+    "not_found_handling": "404-page"
+  }
+}

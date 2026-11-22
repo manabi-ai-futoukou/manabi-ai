@@ -1,0 +1,217 @@
+{
+ "units": [
+  {
+   "domain": "A Numbers and Expressions",
+   "title": "Positive and Negative Numbers",
+   "summary": "You will learn about numbers less than 0 and become able to do the four arithmetic operations with positive and negative numbers.",
+   "lessons": [
+    {
+     "title": "Numbers with Signs",
+     "summary": "Numbers less than 0, positive and negative numbers, natural numbers, and how to express quantities with opposite meanings."
+    },
+    {
+     "title": "The Number Line and Absolute Value",
+     "summary": "The number line, comparing numbers with inequality signs, and absolute value."
+    },
+    {
+     "title": "Addition",
+     "summary": "The sum of two numbers with the same or different signs, thinking with the number line, and the commutative and associative laws of addition."
+    },
+    {
+     "title": "Subtraction",
+     "summary": "The idea of subtraction as changing the sign of the number being subtracted and adding."
+    },
+    {
+     "title": "Calculations with Addition and Subtraction Mixed Together",
+     "summary": "Terms, expressions with parentheses omitted, and calculating expressions that mix addition and subtraction."
+    },
+    {
+     "title": "Multiplication",
+     "summary": "The sign and absolute value of the product of two numbers, the commutative and associative laws of multiplication, and powers and exponents."
+    },
+    {
+     "title": "Division",
+     "summary": "The sign and absolute value of the quotient of two numbers, reciprocals, and calculations mixing multiplication and division."
+    },
+    {
+     "title": "Calculations with Mixed Operations",
+     "summary": "The order of operations, the distributive law, and how number systems relate to the four operations."
+    },
+    {
+     "title": "Prime Factorization",
+     "summary": "Prime numbers and expressing natural numbers as products of primes."
+    },
+    {
+     "title": "Using Positive and Negative Numbers",
+     "summary": "Using them in everyday situations, such as finding averages using differences from a standard."
+    }
+   ]
+  },
+  {
+   "domain": "A Numbers and Expressions",
+   "title": "Letters and Expressions",
+   "summary": "You will learn to express quantities and relationships as expressions using letters and to calculate with linear expressions.",
+   "lessons": [
+    {
+     "title": "Expressions Using Letters",
+     "summary": "Expressing quantities as expressions using letters."
+    },
+    {
+     "title": "How to Write Expressions",
+     "summary": "The rules for writing products and quotients, and notation using powers."
+    },
+    {
+     "title": "Evaluating Expressions",
+     "summary": "Substitution and the value of an expression."
+    },
+    {
+     "title": "Adding and Subtracting Linear Expressions",
+     "summary": "Terms and coefficients, linear expressions, and combining like terms."
+    },
+    {
+     "title": "Linear Expressions: Multiplication and Division by Numbers",
+     "summary": "Multiplying a linear expression by a number and dividing it by a number, and using the distributive law."
+    },
+    {
+     "title": "Expressing Relationships with Expressions",
+     "summary": "Expressing relationships between quantities with equalities and inequalities."
+    }
+   ]
+  },
+  {
+   "domain": "A Numbers and Expressions",
+   "title": "Linear Equations",
+   "summary": "You will understand the meaning of equations and become able to solve linear equations and use them to solve problems.",
+   "lessons": [
+    {
+     "title": "Equations and Their Solutions",
+     "summary": "Equations, solutions, and the meaning of solving."
+    },
+    {
+     "title": "Properties of Equations",
+     "summary": "How to solve equations using the four properties of equality."
+    },
+    {
+     "title": "Solving Equations Using Transposition",
+     "summary": "Transposition and the steps for solving a linear equation."
+    },
+    {
+     "title": "Various Kinds of Equations",
+     "summary": "Equations containing parentheses, decimals, and fractions."
+    },
+    {
+     "title": "Proportions (Ratio Equations)",
+     "summary": "The value of a ratio and the properties of proportions."
+    },
+    {
+     "title": "Using Equations to Solve Problems",
+     "summary": "The steps for solving word problems with equations and checking solutions."
+    }
+   ]
+  },
+  {
+   "domain": "C Functions",
+   "title": "Direct and Inverse Proportion",
+   "summary": "You will become able to express the relationship between two quantities that change together using expressions, tables, and graphs.",
+   "lessons": [
+    {
+     "title": "Functions",
+     "summary": "The meaning of a function, variables, and domain."
+    },
+    {
+     "title": "Proportional Relationships and Their Equations",
+     "summary": "The definition of direct proportion, the constant of proportionality, and direct proportion involving negative numbers."
+    },
+    {
+     "title": "Coordinates",
+     "summary": "Coordinate axes, the origin, and the coordinates of a point."
+    },
+    {
+     "title": "Graphs of Proportions",
+     "summary": "The features of graphs of direct proportion and how to draw them."
+    },
+    {
+     "title": "Inverse Proportion Equations",
+     "summary": "The definition of inverse proportion and the constant of proportionality."
+    },
+    {
+     "title": "Graphs of Inverse Proportion",
+     "summary": "The features of hyperbolas and how to draw them."
+    },
+    {
+     "title": "Applications of Proportion and Inverse Proportion",
+     "summary": "Thinking about everyday phenomena as direct or inverse proportions."
+    }
+   ]
+  },
+  {
+   "domain": "B Geometry",
+   "title": "Plane Figures",
+   "summary": "Through transformations and constructions of figures, you will become able to investigate the properties of plane figures with foresight.",
+   "lessons": [
+    {
+     "title": "Lines and Angles",
+     "summary": "Lines, line segments, rays, angles, perpendicular and parallel lines, and distance."
+    },
+    {
+     "title": "Moving Figures",
+     "summary": "Translation, rotation, and reflection."
+    },
+    {
+     "title": "Basic Constructions",
+     "summary": "Constructing perpendicular bisectors, angle bisectors, and perpendicular lines."
+    },
+    {
+     "title": "Circles and Sectors",
+     "summary": "Arcs and chords, tangent lines, and the arc length and area of a sector."
+    }
+   ]
+  },
+  {
+   "domain": "B Geometry",
+   "title": "Solid Figures",
+   "summary": "You will observe solids and become able to investigate positional relationships in space, as well as surface areas and volumes.",
+   "lessons": [
+    {
+     "title": "Various Solids",
+     "summary": "Prisms, cylinders, pyramids, cones, and polyhedra."
+    },
+    {
+     "title": "Positions of Lines and Planes",
+     "summary": "Parallel and perpendicular lines and planes in space, and skew lines."
+    },
+    {
+     "title": "Different Ways of Looking at Solids",
+     "summary": "Solids made by moving faces or lines, nets, and projections."
+    },
+    {
+     "title": "Surface Area and Volume of Solids",
+     "summary": "The surface area and volume of prisms and cylinders, pyramids and cones, and spheres."
+    }
+   ]
+  },
+  {
+   "domain": "D Data Analysis",
+   "title": "Using Data",
+   "summary": "You will become able to organize data, read trends, and express how likely events are to occur with numbers.",
+   "lessons": [
+    {
+     "title": "Frequency Distribution Tables and Histograms",
+     "summary": "Classes, frequency, histograms, and frequency polygons."
+    },
+    {
+     "title": "Relative Frequency and Cumulative Frequency",
+     "summary": "Relative frequency, cumulative frequency, and cumulative relative frequency."
+    },
+    {
+     "title": "Representative Values and Range",
+     "summary": "Mean, median, and mode, range, and reading trends in data."
+    },
+    {
+     "title": "How Likely Is It to Happen?",
+     "summary": "Many trials and relative frequency, and the idea of probability."
+    }
+   ]
+  }
+ ]
+}
