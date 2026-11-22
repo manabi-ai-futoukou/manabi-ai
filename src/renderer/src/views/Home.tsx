@@ -41,7 +41,9 @@ export function Home() {
   const characters = useLoad(() => api.characters.list(), [], ['characters'])
   const notebooks = useLoad(() => api.notes.list(), [], ['notes', 'evaluations'])
   const reports = useLoad(() => (course ? api.report.list(course.subjectId) : Promise.resolve([])), [course?.subjectId], ['report'])
-  const library = useLoad(() => api.library.get(), [], ['library'])
+  // 教材づくりの集計（全部の科目の単元表を読む）は、そのカードを出す開発用の版だけで行う。
+  // Web 版では、単元表を 1 つずつ取り寄せるので、配る版でこれを行うと、ホームが出るまで何秒も待たせてしまう
+  const library = useLoad(() => (api.authoring ? api.library.get() : Promise.resolve(undefined)), [], ['library'])
   const [openUnit, setOpenUnit] = useState<string | null>(null)
   const [editing, setEditing] = useState<CharacterDef | null>(null)
   const [making, setMaking] = useState(false)

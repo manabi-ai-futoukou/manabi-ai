@@ -1007,6 +1007,12 @@ export const en: Record<string, string> = {
   '見開きがちょうど収まる大きさ（100%）にもどす': 'Reset to the size where the spread fits exactly (100%)',
   'ページの幅がちょうど収まる大きさ（100%）にもどす': 'Reset to the size where the page width fits exactly (100%)',
   '教材を準備しています。はじめて開くときは、1〜2 分かかります。': 'Preparing the learning materials. The first launch takes a minute or two.',
+  '未保存': 'Unsaved',
+  'ノートを保存します（Ctrl + S）。ノートは、閉じるときにも保存されます': 'Save the notebook (Ctrl + S). It is also saved when you close it',
+  'いまは手書き。押すと、タイピングに切りかえます': 'Handwriting now. Press to switch to typing',
+  'いまはタイピング。押すと、手書きに切りかえます': 'Typing now. Press to switch to handwriting',
+  '授業の一覧をかくして、本文を広く見ます': 'Hide the lesson list to give the text more room',
+  '« 一覧をかくす': '« Hide the list',
   // AI のつなぎ方（Windows 版）
   'AI のつなぎ方': 'AI connection',
   '先生との会話、ノートの評価、テストづくりなどに使う AI を、どの方法でつなぐかを選びます。': 'Choose how the app connects to the AI used for conversations with teachers, notebook feedback, test making, and more.',

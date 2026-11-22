@@ -36,7 +36,13 @@ button { font: inherit; color: inherit; }
 .shell-plan a { color: var(--accent); }
 
 .shell-stage { display: grid; min-height: 0; gap: 2px; background: var(--line); grid-template: 'a' 1fr / 1fr; }
-.shell-stage[data-panes='2'] { grid-template: 'a b' 1fr / 1fr 1fr; }
+.shell-stage[data-panes='2'] { grid-template: 'a s b' 1fr / 1fr 12px 1fr; gap: 0; }
+/* 2 つ並べたときの、間の線。つかんで左右に動かすと、画面の幅が変わる */
+.shell-split { grid-area: s; position: relative; cursor: col-resize; touch-action: none; background: var(--line); }
+.shell-split::after { content: ''; position: absolute; left: 50%; top: 50%; width: 4px; height: 44px; margin: -22px 0 0 -2px; border-radius: 2px; background: var(--accent); opacity: 0.55; }
+.shell-split:hover::after, .shell-stage[data-dragging] .shell-split::after { opacity: 1; }
+/* 動かしているあいだは、画面の中身に、ポインターを取られないようにする */
+.shell-stage[data-dragging] iframe { pointer-events: none; }
 .shell-stage[data-panes='3'] { grid-template: 'a c' 1fr 'b c' 1fr / minmax(280px, 34%) 1fr; }
 .shell-stage iframe { width: 100%; height: 100%; border: 0; background: var(--paper); min-width: 0; min-height: 0; }
 .shell-stage iframe[data-focus='true'] { outline: 2px solid var(--accent); outline-offset: -2px; }

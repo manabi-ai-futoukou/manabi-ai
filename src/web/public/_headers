@@ -1,0 +1,10 @@
+# Cloudflare（Workers の静的なファイルの配信）で、ファイルにつける見出し。
+# assets/ のファイルは、中身が変わると名前も変わるので、ブラウザーに長く覚えさせて、取り直さないようにする。
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 登場人物の絵とアイコンは、めったに変わらないので、1 週間は取り直さない。
+/characters/*
+  Cache-Control: public, max-age=604800
+/icons/*
+  Cache-Control: public, max-age=604800

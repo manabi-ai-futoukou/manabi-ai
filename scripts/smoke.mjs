@@ -426,7 +426,7 @@ try {
   await penStroke(note, 1, line(0.1, 0.6, 0.9, 0.6, 0.5, 20))
   await penStroke(note, 1, line(0.5, 0.55, 0.5, 0.65, 0.5, 10), { eraser: true })
 
-  await note.waitForTimeout(2300)
+  await note.evaluate(() => window.__manabiFlush?.())
   check('ノート: 自動で保存される', (await note.locator('.save-state').innerText()) === '保存済み')
   await shot(note, '3-note')
 
@@ -517,7 +517,7 @@ try {
   await note.getByRole('button', { name: 'ペン', exact: true }).click()
   await note.getByRole('button', { name: '赤' }).click()
   await penStroke(note, 0, line(0.3, 0.62, 0.7, 0.42, 0.6, 30))
-  await note.waitForTimeout(2300)
+  await note.evaluate(() => window.__manabiFlush?.())
   await shot(note, '3-note-objects')
 
   const readNote = () =>
@@ -540,7 +540,7 @@ try {
   const image = placed.find((o) => o.type === 'image')
   await note.mouse.click(imageBox.x + (imageBox.width * (image.x + image.w / 2)) / 1820, imageBox.y + (imageBox.height * (image.y + image.h / 2)) / 2570)
   await note.getByRole('button', { name: '消す' }).click()
-  await note.waitForTimeout(2300)
+  await note.evaluate(() => window.__manabiFlush?.())
   placed = (await readNote()).pages.flatMap((p) => p.objects ?? [])
   check('ノート: 選んだ部品を消せる', !placed.some((o) => o.type === 'image') && placed.length === 6, `${placed.length} 個`)
 
@@ -550,7 +550,7 @@ try {
   await dragOn(1, [0.05, 0.05], [0.95, 0.9])
   const grouped = await note.waitForSelector('.note-group', { timeout: 3000 }).then(() => true, () => false)
   await note.keyboard.press('Delete')
-  await note.waitForTimeout(2300)
+  await note.evaluate(() => window.__manabiFlush?.())
   placed = (await readNote()).pages.flatMap((p) => p.objects ?? [])
   check('ノート: 範囲を選んで、その中だけを消せる', grouped && placed.length === 3, `${placed.length} 個残り`)
 
@@ -559,10 +559,10 @@ try {
   const left = await note.locator('.note-page').nth(0).boundingBox()
   await note.mouse.click(left.x + left.width * 0.92, left.y + left.height * 0.95)
   await note.keyboard.press('Delete')
-  await note.waitForTimeout(2300)
+  await note.evaluate(() => window.__manabiFlush?.())
   const cleared = (await readNote()).pages[2]
   await note.keyboard.press('Control+z')
-  await note.waitForTimeout(2300)
+  await note.evaluate(() => window.__manabiFlush?.())
   const restored = (await readNote()).pages[2]
   check('ノート: Delete でページの書きこみを全部消し、元に戻せる', cleared.strokes.length + (cleared.objects ?? []).length === 0 && (restored.objects ?? []).length === 3)
 
@@ -609,13 +609,25 @@ try {
   check('ノート: ペンの太さに、細いもの（極細・細め）がある', (await note.locator('.size').count()) === 5)
 
   // タイピングモード: 罫線に沿って入力し、縦書きと英語の 4 線に切りかえる
-  await note.getByRole('button', { name: 'タイピング' }).click()
+  await note.getByRole('button', { name: '手書き', exact: true }).click()
   await showAdded(1)
   await note.locator('.note-typed').first().click()
   await note.keyboard.type('タイピングの確認です。罫線に沿って文字が並びます。')
   await note.locator('.note-bar').click({ position: { x: 5, y: 5 } })
-  await note.waitForTimeout(2300)
+  await note.evaluate(() => window.__manabiFlush?.())
   check('ノート: タイピングモードで入力した文章が保存される', ((await readNote()).pages[3].typed ?? '').includes('タイピングの確認'))
+  // 保存は、保存のボタンを押したときと、閉じるときだけ（書いただけでは、保存しない）
+  const typedOnDisk = () => note.evaluate(async () => (await window.manabi.notes.get((await window.manabi.view.get()).params.notebookId)).pages[3].typed ?? '')
+  await note.locator('.note-typed').first().click()
+  await note.keyboard.press('Control+End')
+  await note.keyboard.type('あとから足した文。')
+  await note.locator('.note-bar').click({ position: { x: 5, y: 5 } })
+  await note.waitForTimeout(2600)
+  const notYet = await typedOnDisk()
+  const label = await note.locator('.save-state').innerText()
+  await note.getByRole('button', { name: '保存する' }).click()
+  await note.waitForFunction(() => document.querySelector('.save-state')?.getAttribute('data-state') === 'saved')
+  check('ノート: 自動では保存せず、保存のボタンを押すと保存する', !notYet.includes('あとから足した文') && label === '未保存' && (await typedOnDisk()).includes('あとから足した文'), label)
   await note.getByRole('button', { name: '罫線' }).click()
   await note.getByLabel('縦書き（罫線を縦にする）').check()
   const vertical = (await note.locator('.note-typed').first().getAttribute('data-vertical')) === 'true'
@@ -628,7 +640,7 @@ try {
   await note.getByRole('button', { name: '横罫' }).click()
   await note.getByLabel('縦書き（罫線を縦にする）').uncheck()
   await note.getByRole('button', { name: '閉じる' }).first().click()
-  await note.getByRole('button', { name: '手書き' }).click()
+  await note.getByRole('button', { name: 'タイピング', exact: true }).click()
   await note.getByRole('button', { name: '検索' }).click()
   await note.locator('.search input').fill('バスケ')
   await note.locator('.search li button').first().click()
@@ -1132,6 +1144,19 @@ try {
   check('設定: 変えたショートカットが、ノートですぐに使える', afterOld === 'false' && afterNew === 'true')
   await selectRow.getByRole('button', { name: 'はじめにもどす' }).click()
   await prefs.close()
+  // ノートは、閉じるときに、書きかけを保存する
+  {
+    const id = await keyNote.evaluate(async () => (await window.manabi.view.get()).params.notebookId)
+    await keyNote.getByRole('button', { name: '手書き', exact: true }).click()
+    await keyNote.locator('.note-typed').first().click()
+    await keyNote.keyboard.type('閉じる前に書いた文。')
+    await keyNote.locator('.note-bar').click({ position: { x: 5, y: 5 } })
+    const before = await home.evaluate((key) => window.manabi.notes.get(key).then((n) => n.pages.some((p) => (p.typed ?? '').includes('閉じる前に書いた文'))), id)
+    await keyNote.evaluate(() => window.close()).catch(() => {})
+    await home.waitForTimeout(1500)
+    const after = await home.evaluate((key) => window.manabi.notes.get(key).then((n) => n.pages.some((p) => (p.typed ?? '').includes('閉じる前に書いた文'))), id)
+    check('ノート: 閉じるときに、書きかけを保存する', !before && after && keyNote.isClosed())
+  }
 
   // ───────── 英会話 ─────────
   const eikaiwa = await opened(() => home.getByRole('button', { name: '英会話', exact: true }).click(), 'eikaiwa')
@@ -1203,13 +1228,13 @@ try {
   )
   check('語彙力特訓: 練習用のノートには、先生の評価ではなく「書けた！」が出る', (await drillNote.getByRole('button', { name: '書けた！' }).count()) === 1 && (await drillNote.getByRole('button', { name: /に見てもらう$/ }).count()) === 0)
   // ノートに、言葉を 5 回と例文を 2 文、タイピングで書く。手書きの線も 1 本入れる
-  await drillNote.getByRole('button', { name: 'タイピング' }).click()
+  await drillNote.getByRole('button', { name: '手書き', exact: true }).click()
   await drillNote.locator('.note-typed').first().click()
   for (const line of ['把握　把握　把握　把握　把握', '駅までの道を、地図を見て把握した。', '部長は、部員ひとりひとりの得意なことを把握している。']) {
     await drillNote.keyboard.type(line)
     await drillNote.keyboard.press('Enter')
   }
-  await drillNote.getByRole('button', { name: '手書き' }).click()
+  await drillNote.getByRole('button', { name: 'タイピング', exact: true }).click()
   await drillNote.getByRole('button', { name: 'ペン', exact: true }).click()
   await penStroke(drillNote, 0, [[0.2, 0.5, 0.4], [0.4, 0.52, 0.7], [0.6, 0.5, 0.5]])
   await drillNote.waitForTimeout(400)
@@ -1519,7 +1544,7 @@ try {
     check('設定: 「AI のつなぎ方」に、2 つの方式と、キーを入れる欄が出る', (await settings.locator('.ai-link-route').count()) === 2 && (await settings.locator('.ai-link-detail input[type="password"]').count()) === 2)
     await shot(settings, 'ai-link-key')
     await settings.locator('.ai-link-route', { hasText: 'Sign in with ChatGPT' }).click()
-    await settings.waitForSelector('.ai-link-detail .btn-primary')
+    await settings.getByRole('button', { name: 'Continue with ChatGPT' }).waitFor()
     const after = await home.evaluate(() => Promise.all([window.manabi.ai.link.get(), window.manabi.settings.get()]))
     check('設定: Sign in with ChatGPT を選ぶと、AI が OpenAI（Codex）の側に切りかわる', after[0].route === 'siwc' && after[1].ai.provider === 'codex' && (await settings.locator('.ai-link-detail .btn-primary').innerText()) === 'Continue with ChatGPT')
     await shot(settings, 'ai-link-siwc')

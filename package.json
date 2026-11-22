@@ -76,6 +76,7 @@
         "filter": [
           "**/*",
           "!**/_list.json",
+          "!**/_summary.json",
           "!search/**"
         ]
       }

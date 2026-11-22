@@ -161,6 +161,22 @@ function rememberedBounds(view: ViewName): Partial<Rectangle> & { maximized?: bo
   return taken ? { ...saved, x: saved.x + 32, y: saved.y + 32, maximized: false } : saved
 }
 
+/** ノートの画面に、書きかけを保存させて、終わるのを待つ（ノートは、保存のボタンを押したときと、閉じるときにだけ保存する） */
+async function flushNote(window: BrowserWindow): Promise<void> {
+  if (window.isDestroyed()) return
+  await Promise.race([
+    window.webContents.executeJavaScript('window.__manabiFlush ? window.__manabiFlush() : null', true).catch(() => undefined),
+    new Promise((resolve) => setTimeout(resolve, 5000)),
+  ])
+}
+
+/** 画面を閉じる（ノートは、保存させてから） */
+function destroyView(window: BrowserWindow, view: ViewName): void {
+  if (window.isDestroyed()) return
+  if (view === 'note') void flushNote(window).finally(() => !window.isDestroyed() && window.destroy())
+  else window.destroy()
+}
+
 function focus(window: BrowserWindow): void {
   if (window.isMinimized()) window.restore()
   window.focus()
@@ -246,7 +262,7 @@ function allowedDuringTest(view: ViewName, params: ViewParams): boolean {
 
 function closeAllExcept(keep: ViewName): void {
   for (const { window, view } of [...openViews.values()]) {
-    if (view !== keep && !window.isDestroyed()) window.destroy()
+    if (view !== keep) destroyView(window, view)
   }
 }
 
@@ -330,6 +346,13 @@ async function openView(view: ViewName, params: ViewParams = {}): Promise<void> 
     // 固定で半分に置いているあいだの位置は、覚えない（固定をやめたあとに開くときは、もとの位置と大きさにもどる）
     if (!window.isMinimized() && !pinnedWindow()) windowBounds.update((all) => ({ ...all, [view]: { ...window.getNormalBounds(), maximized: window.isMaximized() } }))
   })
+  // ノートは、閉じるときに、書きかけを保存する（画面の保存が終わるのを待ってから、閉じる）
+  if (view === 'note') {
+    window.on('close', (event) => {
+      event.preventDefault()
+      void flushNote(window).finally(() => !window.isDestroyed() && window.destroy())
+    })
+  }
   window.once('ready-to-show', () => {
     if (remembered.maximized && !(pinnedWindow() && !KANJI_VIEWS.includes(view))) window.maximize()
     // 教科書といっしょに開くノートは、見せるだけで、手前（キーの入力先）にはしない

@@ -71,8 +71,9 @@ html[data-phone] .steps li { flex: none; width: 68%; scroll-snap-align: start; p
 html[data-phone] .home-columns { display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
 html[data-phone] .home-side { display: contents; }
 html[data-phone] .home-side > .card { order: 3; }
-html[data-phone] .home-side > .home-tools { order: -2; }
-html[data-phone] .home-side > .home-progress { order: -1; }
+/* 並びは、授業の流れ（① 教科書を読む …）→ 教材・授業 → 学びの道具 → 力だめしと成績 → そのほか */
+html[data-phone] .home-side > .home-tools { order: 1; }
+html[data-phone] .home-side > .home-progress { order: 2; }
 html[data-phone] .home-main { order: 0; min-width: 0; }
 html[data-phone] .home-progress-actions { grid-template-columns: 1fr 1fr; }
 html[data-phone] .home-progress-actions .btn { white-space: normal; line-height: 1.3; }

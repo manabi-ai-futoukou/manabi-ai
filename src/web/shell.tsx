@@ -5,7 +5,7 @@
  * - 画面はタブとして開き、広い画面では 2 つ（漢字特訓は 3 つ）を並べて表示する（タブレットで、教科書とノートを並べる使い方）
  * - AI のつなぎ方（開発用・自分の API キー・運営者の API キー・Sign in with ChatGPT）を選ぶ
  */
-import { StrictMode, useEffect, useRef, useState, useSyncExternalStore } from 'react'
+import { StrictMode, useEffect, useRef, useState, useSyncExternalStore, type PointerEvent as ReactPointerEvent } from 'react'
 import { createRoot } from 'react-dom/client'
 import type { ViewName, ViewParams } from '@shared/types'
 import type { Route, UsageRow, WebAiConfig } from './ai/transport'
@@ -163,13 +163,6 @@ async function openView(view: ViewName, params: ViewParams, fromKey?: string): P
   if (together) {
     // 授業を移ったら、前の授業のノートは閉じる（ノートのタブが、開いた授業の数だけ増えていかないように）
     if (companion && companion !== key && state.views.some((v) => v.key === companion)) {
-      // 閉じる前に、書きかけを保存させる（ノートは、フォーカスが外れたときに保存する）
-      try {
-        const frame = frames.get(companion) as (Window & typeof globalThis) | undefined
-        frame?.dispatchEvent(new frame.Event('blur'))
-      } catch {
-        // 保存の合図を送れなくても、閉じるのは続ける
-      }
       closeView(companion)
     }
     companion = key
@@ -243,8 +236,35 @@ function place(key: string, view: ViewName, fromKey: string | undefined, views: 
   return { panes: panes.length ? panes.map((k, i) => (i === at ? key : k)) : [key], focus: key }
 }
 
+/** 閉じる前に、その画面の書きかけを保存させる（ノートは、保存のボタンを押したときと、閉じるときにだけ保存する） */
+function flushView(key: string): void {
+  try {
+    void (frames.get(key) as (Window & { __manabiFlush?: () => Promise<void> }) | undefined)?.__manabiFlush?.()
+  } catch {
+    // 保存の合図を送れなくても、閉じるのは続ける
+  }
+}
+
+/** 2 つ並べたときの、左の画面の幅の割合（この端末に覚えておく） */
+const readSplit = (): number => {
+  try {
+    const value = Number(localStorage.getItem('manabi-split'))
+    return value >= 0.2 && value <= 0.8 ? value : 0.5
+  } catch {
+    return 0.5
+  }
+}
+const saveSplit = (value: number): void => {
+  try {
+    localStorage.setItem('manabi-split', String(value))
+  } catch {
+    // 覚えられなくても、そのまま使える
+  }
+}
+
 function closeView(key: string): void {
   if (key === 'home' && state.views.length === 1) return
+  flushView(key)
   const views = state.views.filter((v) => v.key !== key)
   listeners.delete(key)
   frames.delete(key)
@@ -258,7 +278,7 @@ function closeView(key: string): void {
 }
 
 function closeExcept(keep: ViewName): void {
-  for (const v of state.views) if (v.view !== keep) (listeners.delete(v.key), frames.delete(v.key))
+  for (const v of state.views) if (v.view !== keep) (flushView(v.key), listeners.delete(v.key), frames.delete(v.key))
   const views = state.views.filter((v) => v.view === keep)
   setState({ views, panes: views.map((v) => v.key).slice(0, 1), focus: views[0]?.key ?? '', pin: null })
   if (!views.length) void openView(keep, {})
@@ -420,6 +440,20 @@ const AREAS = ['a', 'b', 'c']
 function Shell() {
   const s = useShell()
   const [panel, setPanel] = useState(false)
+  /** 2 つ並べたときの、左の画面の幅の割合。間の線をつかんで動かすと、変わる */
+  const [ratio, setRatio] = useState(readSplit)
+  const [dragging, setDragging] = useState(false)
+  const stageRef = useRef<HTMLElement>(null)
+  const moveSplit = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (!dragging || !stageRef.current) return
+    const box = stageRef.current.getBoundingClientRect()
+    setRatio(Math.max(0.2, Math.min(0.8, (e.clientX - box.left) / box.width)))
+  }
+  const endSplit = () => {
+    if (!dragging) return
+    setDragging(false)
+    saveSplit(ratio)
+  }
   const [route, setRoute] = useState<Route | null>(null)
   const [install, setInstall] = useState<{ prompt(): Promise<unknown> } | null>(null)
   const label = (v: OpenView) => LABELS[v.view][s.lang === 'ja' ? 0 : 1]
@@ -440,7 +474,27 @@ function Shell() {
   if (!s.ready) return <p className="shell-loading">学びアイを準備しています…</p>
 
   const stage = (
-    <main className="shell-stage" data-panes={s.panes.length}>
+    <main ref={stageRef} className="shell-stage" data-panes={s.panes.length} data-dragging={dragging || undefined} style={s.panes.length === 2 ? { gridTemplateColumns: `${ratio}fr 12px ${1 - ratio}fr` } : undefined}>
+      {s.panes.length === 2 && (
+        <div
+          className="shell-split"
+          role="separator"
+          aria-orientation="vertical"
+          aria-label="画面の幅を変える"
+          title="つかんで左右に動かすと、画面の幅が変わります（ダブルクリックで、半分ずつにもどります）"
+          onPointerDown={(e) => {
+            e.currentTarget.setPointerCapture(e.pointerId)
+            setDragging(true)
+          }}
+          onPointerMove={moveSplit}
+          onPointerUp={endSplit}
+          onPointerCancel={endSplit}
+          onDoubleClick={() => {
+            setRatio(0.5)
+            saveSplit(0.5)
+          }}
+        />
+      )}
       {s.views.map((v) => {
         const at = s.panes.indexOf(v.key)
         return (

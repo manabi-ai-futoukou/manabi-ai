@@ -139,6 +139,16 @@ if (has('dry')) {
 const built = spawnSync(process.execPath, ['--no-warnings', join(root, 'tools', 'build-glossary.mjs')], { env: { ...process.env, MANABI_DATA_DIR: data }, encoding: 'utf8' })
 if (built.status !== 0) throw new Error(`索引を作れませんでした: ${built.stderr || built.stdout}`)
 
+// 単元ごとの授業の数のまとめ。科目の一覧の「できた数 / 全体」を、単元表を 1 つずつ取り寄せずに数えるため（src/main/content.ts の curriculumShape）
+{
+  const summary = {}
+  for (const id of courses) {
+    const curriculum = readJson(join(res, 'content', id, 'curriculum.json')) ?? readJson(join(data, 'curricula', `${id}.json`))
+    if (curriculum?.units?.length) summary[id] = curriculum.units.map((unit) => (unit.lessons ?? []).length)
+  }
+  write(join(data, 'curricula', '_summary.json'), summary)
+}
+
 // 5. フォルダの中身の一覧（_list.json）。学びアイのサーバーの「?list=1」と同じ形（名前 → [大きさ, 更新時刻]、フォルダは 0）
 function listFolders(dir) {
   const out = {}

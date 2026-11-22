@@ -72,7 +72,7 @@ if (!checkOnly || !existsSync(join(dist, 'data', 'pack.json'))) writeFileSync(jo
 const lacking = []
 {
   const curricula = join(dist, 'data', 'curricula')
-  for (const name of readdirSync(curricula).filter((n) => n.endsWith('.json') && n !== '_list.json')) {
+  for (const name of readdirSync(curricula).filter((n) => n.endsWith('.json') && !n.startsWith('_'))) {
     const id = name.slice(0, -5)
     const units = JSON.parse(readFileSync(join(curricula, name), 'utf8')).units ?? []
     let missing = 0

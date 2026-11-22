@@ -44,7 +44,6 @@ const ERASER_SIZES = [
   { value: 100, label: t('特大') },
 ]
 /** 書き終わってから保存を始めるまでの間（ミリ秒）。続けて書いているあいだは、保存しない */
-const SAVE_DELAY = 1500
 const SPACINGS = [5, 6, 7, 8, 10, 12, 15, 20]
 /** ページの拡大率の範囲（1 = 見開きがちょうど収まる大きさ） */
 const clampPageZoom = (value: number) => Math.round(Math.max(1, Math.min(4, value)) * 100) / 100
@@ -221,45 +220,50 @@ export function Note({ params }: { params: ViewParams }) {
     }
   }, [])
 
-  /** ノートを書きかえる。少し間をおいて自動で保存する。 */
+  /** ノートを書きかえる（保存は、保存のボタンを押したときと、ノートを閉じるときだけ）。 */
   const apply = useCallback(
     (next: Notebook) => {
       current.current = next
       setNotebook(next)
       dirty.current = true
       setSaveState('dirty')
-      window.clearTimeout(saveTimer.current)
-      saveTimer.current = window.setTimeout(() => void saveNow(), SAVE_DELAY)
     },
     [saveNow],
   )
 
-  // 書いているあいだ（ペンや指が下りているあいだ）は、保存を始めない。
-  // iPad では、保存（ノート全体をワーカーへ渡す）が、次の線の描きはじめを待たせてしまう
-  useEffect(() => {
-    const hold = () => window.clearTimeout(saveTimer.current)
-    const release = () => {
-      if (!dirty.current) return
-      window.clearTimeout(saveTimer.current)
-      saveTimer.current = window.setTimeout(() => void saveNow(), SAVE_DELAY)
-    }
-    window.addEventListener('pointerdown', hold, true)
-    window.addEventListener('pointerup', release, true)
-    window.addEventListener('pointercancel', release, true)
-    return () => {
-      window.removeEventListener('pointerdown', hold, true)
-      window.removeEventListener('pointerup', release, true)
-      window.removeEventListener('pointercancel', release, true)
-    }
-  }, [saveNow])
-
+  // 保存するのは、保存のボタン（Ctrl + S）を押したときと、ノートを閉じるときだけ。
+  // 書いている途中に保存が走ると、iPad では、次の線の書きはじめを待たせてしまう。
+  // 「閉じるとき」: ウィンドウやタブを閉じる・ページをはなれる・アプリを裏に回す（スマートフォンやタブレットでは、これが最後の合図になる）。
+  // 本体側（Windows 版のウィンドウ、Web 版のタブ）は、閉じる前に window.__manabiFlush を呼んで、保存させる。
   useEffect(() => {
     const flush = () => void saveNow()
-    window.addEventListener('beforeunload', flush)
-    window.addEventListener('blur', flush)
+    const hidden = () => {
+      if (document.visibilityState === 'hidden') flush()
+    }
+    const leaving = (e: BeforeUnloadEvent) => {
+      const unsaved = dirty.current
+      flush()
+      // Web 版: 保存していないままページを閉じよう・読みこみ直そうとしたら、ブラウザーに確かめさせる（その間に、保存が終わる）
+      if (unsaved && !navigator.userAgent.includes('Electron')) e.preventDefault()
+    }
+    const key = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 's') {
+        e.preventDefault()
+        flush()
+      }
+    }
+    const host = window as unknown as { __manabiFlush?: () => Promise<void> }
+    host.__manabiFlush = saveNow
+    window.addEventListener('beforeunload', leaving)
+    window.addEventListener('pagehide', flush)
+    document.addEventListener('visibilitychange', hidden)
+    window.addEventListener('keydown', key)
     return () => {
-      window.removeEventListener('beforeunload', flush)
-      window.removeEventListener('blur', flush)
+      delete host.__manabiFlush
+      window.removeEventListener('beforeunload', leaving)
+      window.removeEventListener('pagehide', flush)
+      document.removeEventListener('visibilitychange', hidden)
+      window.removeEventListener('keydown', key)
     }
   }, [saveNow])
 
@@ -298,6 +302,7 @@ export function Note({ params }: { params: ViewParams }) {
 
   // ───────── 指のジェスチャー（iPad・Chromebook など、画面に指で触れる機器）─────────
   // 2 本指で軽くたたく = 元に戻す ／ 3 本指で軽くたたく = やり直す ／ 2 本指で動かす = ノートを動かす ／ 2 本指を開く・閉じる = 拡大・縮小
+  // 2 本指・3 本指を、動かさずに置いたままにする = 元に戻す・やり直すを、はなすまでくり返す
   const fingers = useRef({ zoom: 1, zoomTo: (_next: number) => undefined as void, undo: () => undefined as void, redo: () => undefined as void })
   fingers.current.zoom = zoom
   fingers.current.undo = undo
@@ -307,7 +312,7 @@ export function Note({ params }: { params: ViewParams }) {
     if (!stage) return
     const touches = new Map<number, { x: number; y: number }>()
     /** 指が 1 本でも触れてから、全部はなれるまで */
-    let session: { startedAt: number; most: number; moved: number; span: number; zoom: number; x: number; y: number } | null = null
+    let session: { startedAt: number; most: number; moved: number; span: number; zoom: number; x: number; y: number; held: boolean } | null = null
     const middle = () => {
       let x = 0
       let y = 0
@@ -330,14 +335,39 @@ export function Note({ params }: { params: ViewParams }) {
       session.span = spanOf()
       session.zoom = fingers.current.zoom
     }
+    /** 2 本指・3 本指を、動かさずに置いたままにすると、元に戻す・やり直すを、はなすまでくり返す */
+    let holdTimer = 0
+    let repeatTimer = 0
+    let holdAt = { x: 0, y: 0 }
+    const stopHold = () => {
+      window.clearTimeout(holdTimer)
+      window.clearInterval(repeatTimer)
+      holdTimer = 0
+      repeatTimer = 0
+    }
+    const startHold = () => {
+      stopHold()
+      if (touches.size !== 2 && touches.size !== 3) return
+      holdAt = middle()
+      holdTimer = window.setTimeout(() => {
+        holdTimer = 0
+        const step = () => {
+          if (!session || (touches.size !== 2 && touches.size !== 3)) return stopHold()
+          session.held = true
+          if (touches.size === 3) fingers.current.redo()
+          else fingers.current.undo()
+        }
+        step()
+        repeatTimer = window.setInterval(step, 150)
+      }, 450)
+    }
     const down = (e: PointerEvent) => {
       if (e.pointerType !== 'touch') return
       touches.set(e.pointerId, { x: e.clientX, y: e.clientY })
-      if (!session) session = { startedAt: performance.now(), most: 0, moved: 0, span: 0, zoom: fingers.current.zoom, x: e.clientX, y: e.clientY }
+      if (!session) session = { startedAt: performance.now(), most: 0, moved: 0, span: 0, zoom: fingers.current.zoom, x: e.clientX, y: e.clientY, held: false }
       session.most = Math.max(session.most, touches.size)
-      // 2 本めの指が触れたら、1 本めの指で書きかけた線（指で書けるスマートフォン）は捨てる
-      if (touches.size === 2) for (const page of stage.querySelectorAll('.note-page')) page.dispatchEvent(new Event('note-discard'))
       rebase()
+      startHold()
     }
     const move = (e: PointerEvent) => {
       const point = touches.get(e.pointerId)
@@ -347,6 +377,8 @@ export function Note({ params }: { params: ViewParams }) {
       if (touches.size < 2) return
       e.preventDefault()
       const c = middle()
+      // 置いた場所から指が動いたら、長押しはやめる（手のふるえくらいでは、やめない）
+      if ((holdTimer || repeatTimer) && Math.hypot(c.x - holdAt.x, c.y - holdAt.y) > 28) stopHold()
       const dx = c.x - session.x
       const dy = c.y - session.y
       session.moved += Math.abs(dx) + Math.abs(dy)
@@ -360,15 +392,17 @@ export function Note({ params }: { params: ViewParams }) {
         const ratio = spanOf() / session.span
         if (Math.abs(ratio - 1) > 0.05) {
           session.moved += 100
+          stopHold()
           fingers.current.zoomTo(session.zoom * ratio)
         }
       }
     }
     const up = (e: PointerEvent) => {
       if (!touches.delete(e.pointerId) || !session) return
+      stopHold()
       if (touches.size) return rebase()
-      // 全部の指がはなれた。短い時間で、ほとんど動いていなければ「軽くたたいた」とみる
-      const tapped = performance.now() - session.startedAt < 350 && session.moved < 24
+      // 全部の指がはなれた。短い時間で、ほとんど動いていなければ「軽くたたいた」とみる（長押しでくり返したあとは、数えない）
+      const tapped = !session.held && performance.now() - session.startedAt < 350 && session.moved < 24
       const most = session.most
       session = null
       if (tapped && most === 2) fingers.current.undo()
@@ -379,6 +413,7 @@ export function Note({ params }: { params: ViewParams }) {
     stage.addEventListener('pointerup', up, true)
     stage.addEventListener('pointercancel', up, true)
     return () => {
+      stopHold()
       stage.removeEventListener('pointerdown', down, true)
       stage.removeEventListener('pointermove', move, true)
       stage.removeEventListener('pointerup', up, true)
@@ -762,7 +797,7 @@ export function Note({ params }: { params: ViewParams }) {
   const isTest = notebook.kind === 'test'
   const isDrill = notebook.kind === 'drill'
   const isMemo = notebook.kind === 'memo'
-  const saveLabel = { saved: t('保存済み'), dirty: t('保存します…'), saving: t('保存中…'), error: t('保存できませんでした') }[saveState]
+  const saveLabel = { saved: t('保存済み'), dirty: t('未保存'), saving: t('保存中…'), error: t('保存できませんでした') }[saveState]
 
   return (
     <div className="note" data-hand={hand}>
@@ -778,6 +813,9 @@ export function Note({ params }: { params: ViewParams }) {
           <span className="save-state" data-state={saveState}>
             {saveLabel}
           </span>
+          <button className="btn note-save" disabled={saveState === 'saved' || saveState === 'saving'} title={t('ノートを保存します（Ctrl + S）。ノートは、閉じるときにも保存されます')} onClick={() => void saveNow()}>
+            {t('保存する')}
+          </button>
           {isDrill && vocab.data?.word && (
             <span className="drill-now">{tx('いまの言葉 {0}', <strong>{vocab.data.word.word}</strong>)}
             </span>
@@ -785,10 +823,10 @@ export function Note({ params }: { params: ViewParams }) {
         </div>
 
         <div className="note-bar-group">
-          <div className="segmented" aria-label={t('書き方')}>
-            <button aria-pressed={!typing} onClick={() => setTyping(false)}>{t('手書き')}</button>
-            <button aria-pressed={typing} onClick={() => setTyping(true)}>{t('タイピング')}</button>
-          </div>
+          {/* いまの書き方を出すボタン。押すたびに、手書きとタイピングが入れかわる */}
+          <button className="btn note-mode" aria-label={typing ? t('タイピング') : t('手書き')} title={typing ? t('いまはタイピング。押すと、手書きに切りかえます') : t('いまは手書き。押すと、タイピングに切りかえます')} onClick={() => setTyping((on) => !on)}>
+            {typing ? t('タイピング') : t('手書き')}
+          </button>
           {typing && (
             <MicButton
               lang={notebook.ruling.kind === 'english' ? 'en' : 'ja'}

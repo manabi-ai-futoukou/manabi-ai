@@ -20,3 +20,6 @@ assets-src/
 .env
 .env.*
 *.pem
+
+# Cloudflare の道具（wrangler）が作る、手もとの控え
+.wrangler/

@@ -128,6 +128,31 @@ function translatedCurriculum(courseId: string, base: CurriculumFile): Curriculu
 export function saveCurriculum(courseId: string, file: CurriculumFile): void {
   saveGeneratedCurriculum(courseId, file)
   curricula.delete(courseId)
+  if (shapes) delete shapes[courseId]
+}
+
+/**
+ * 単元ごとの授業の数のまとめ（科目 → [4, 5, …]）。Web 版の書き出し（tools/export-site.mjs）が、前もって作る。
+ *
+ * 科目の一覧には、科目ごとの「できた数 / 全体」を出す。そのために全部の科目の単元表を読むと、Web 版では、
+ * 単元表を 1 つずつ取り寄せることになり（300 個をこえる）、ホームが出るまで何秒も待たせてしまう。
+ * まとめがあれば、それで数え、単元表そのものは、開いた科目のものだけを読む。
+ * Windows 版には、まとめを置かない（手もとのファイルを読むのは速く、単元表を作り直すこともあるため）。
+ */
+let shapes: Record<string, number[]> | null | undefined
+function curriculumShape(courseId: string): number[] | null {
+  if (shapes === undefined) {
+    try {
+      const file = join(dataDir('curricula'), '_summary.json')
+      shapes = existsSync(file) ? (JSON.parse(readFileSync(file, 'utf8')) as Record<string, number[]>) : null
+    } catch {
+      shapes = null
+    }
+  }
+  const known = shapes?.[courseId]
+  if (Array.isArray(known) && known.length) return known
+  const file = curriculumFileOf(courseId)
+  return file ? file.units.map((unit) => unit.lessons.length) : null
 }
 
 /** 同梱されている（人が書いた）授業の ID */
@@ -157,18 +182,19 @@ function courseTitle(c: CatalogFile['courses'][number]): string {
 }
 
 function toCourse(c: CatalogFile['courses'][number]): Course {
-  const file = curriculumFileOf(c.id)
+  // 数えるだけなので、単元表そのものは読まず、単元ごとの授業の数（まとめがあれば、それ）で数える
+  const file = curriculumShape(c.id)
   const generated = generatedLessonKeys()
   const written = authoredLessons(c.id)
   let total = 0
   let ready = 0
-  file?.units.forEach((unit, u) =>
-    unit.lessons.forEach((_lesson, l) => {
+  file?.forEach((lessons, u) => {
+    for (let l = 0; l < lessons; l += 1) {
       const id = lessonIdOf(c.id, u, l)
       total += 1
       if (written.has(id) || generated.has(id)) ready += 1
-    }),
-  )
+    }
+  })
   return {
     id: c.id,
     school: c.school,

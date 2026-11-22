@@ -20,7 +20,7 @@ import { dataDir } from './paths'
 /** 利用者の側の中身と、まとめて 1 つにするファイル（上書きしない） */
 const MERGED = new Set(['lessons-index.json', 'media/media.json', 'i18n/en/lessons-index.json', 'i18n/en/media.json'])
 /** Web 版だけが使うもの（Windows 版には要らない） */
-const skip = (rel: string) => rel === 'pack.json' || rel.endsWith('_list.json') || rel.startsWith('search/')
+const skip = (rel: string) => rel === 'pack.json' || rel.endsWith('_list.json') || rel.endsWith('_summary.json') || rel.startsWith('search/')
 
 const readJson = <T>(file: string): T | null => {
   try {

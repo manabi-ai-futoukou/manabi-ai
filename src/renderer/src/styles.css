@@ -478,6 +478,15 @@ body[data-view='note'] { --primary: var(--note); --primary-soft: var(--note-soft
 .note-page:first-child { border-radius: 6px 0 0 6px; }
 .note-page:last-child { border-radius: 0 6px 6px 0; }
 .note-page:only-child { border-radius: 6px; }
+/* ノート: いまの書き方（手書き・タイピング）を出すボタンと、保存のボタン */
+.note .note-mode { background: var(--note); border-color: var(--note); color: #fff; font-weight: 700; }
+.note .note-save:not(:disabled) { border-color: var(--note); color: var(--note); font-weight: 700; }
+.note .save-state[data-state='dirty'] { color: var(--danger); font-weight: 700; }
+/* 教科書: 左の授業の一覧を、一時的にかくす */
+.textbook[data-nav='hidden'] { grid-template-columns: minmax(0, 1fr); }
+.textbook[data-nav='hidden'] .textbook-nav { display: none; }
+.textbook-nav-hide { width: 100%; margin-bottom: 10px; }
+html[data-phone] .textbook-nav-hide, html[data-phone] .textbook-nav-show { display: none; }
 
 /* ノートは 1 ページずつ、画面の幅いっぱいに見せる（縦は、送って見る） */
 .note .spread { --fit: calc(100cqw - 36px); }

@@ -52,6 +52,8 @@ export function Textbook({ params }: { params: ViewParams }) {
   const [redSheet, setRedSheet] = useState(false)
   /** スマートフォンでは、授業の一覧をたたんでおき、押したら全画面で開く */
   const [navOpen, setNavOpen] = useState(false)
+  /** 左の授業の一覧を、一時的にかくしているか（広い画面のとき。開き直すと、また出る） */
+  const [navHidden, setNavHidden] = useState(false)
 
   useEffect(() => {
     if (!params.lessonId) return
@@ -129,9 +131,10 @@ export function Textbook({ params }: { params: ViewParams }) {
   }
 
   return (
-    <div className="textbook" data-nav={navOpen ? 'open' : undefined}>
+    <div className="textbook" data-nav={navOpen ? 'open' : navHidden ? 'hidden' : undefined}>
       <nav className="textbook-nav" aria-label={t('授業の一覧')}>
         <button className="btn textbook-nav-close" onClick={() => setNavOpen(false)}>{t('× 一覧を閉じる')}</button>
+        <button className="btn btn-quiet textbook-nav-hide" title={t('授業の一覧をかくして、本文を広く見ます')} onClick={() => setNavHidden(true)}>{t('« 一覧をかくす')}</button>
         {courses.data && (
           <CoursePicker
             courses={courses.data}
@@ -177,6 +180,7 @@ export function Textbook({ params }: { params: ViewParams }) {
             <strong>{meta ? `${meta.number} ${meta.title}` : t('教科書')}</strong>
           </div>
           <div className="view-header-actions">
+            {navHidden && <button className="btn textbook-nav-show" onClick={() => setNavHidden(false)}>{t('≡ 授業の一覧')}</button>}
             <button className="btn phone-only" onClick={() => setNavOpen(true)}>{t('≡ 授業の一覧')}</button>
             {course?.hasDeep && (
               <div className="segmented" aria-label={t('本文の種類')}>
